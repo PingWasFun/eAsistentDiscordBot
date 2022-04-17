@@ -4,7 +4,7 @@ import discord
 from discord import Embed
 from util import get_today
 from formatter import format_day_embed
-from src.eAsistentAPI import (
+from eAsistentAPI import (
     get_day_data,
     get_next_weekday_int,
     get_week_data,

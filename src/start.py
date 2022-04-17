@@ -1,7 +1,7 @@
 import logging
 
 from bot import bot
-from src.setup import TOKEN
+from setup import TOKEN
 
 if __name__ == "__main__":
     log_level = logging.INFO

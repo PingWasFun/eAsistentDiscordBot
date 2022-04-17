@@ -5,16 +5,16 @@ from zoneinfo import ZoneInfo
 import discord
 from discord import client, Embed
 from discord.ext import commands, tasks
-from src.formatter import format_day_embed
+from formatter import format_day_embed
 from setup import SCHEDULE_CHANNEL_ID
 
-from src.eAsistentAPI import (
+from eAsistentAPI import (
     get_day_data,
     get_week_data,
     get_next_weekday_int,
     data_to_date,
 )
-from src.util import get_today
+from util import get_today
 from ui import Schedule
 
 development = False

@@ -3,7 +3,7 @@ import datetime
 
 import eAsisitent_scraper
 
-from src.setup import SCHOOL_ID, CLASS_ID
+from setup import SCHOOL_ID, CLASS_ID
 
 
 def data_to_date(date: str):

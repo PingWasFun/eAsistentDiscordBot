@@ -3,8 +3,8 @@ import datetime
 import discord
 import logging
 
-from src.eAsistentAPI import data_to_date, hour_data_to_tuple
-from src.util import get_weekday_name
+from eAsistentAPI import data_to_date, hour_data_to_tuple
+from util import get_weekday_name
 
 
 def get_embed_color(date: datetime.date):
