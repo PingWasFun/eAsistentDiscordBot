@@ -1,6 +1,6 @@
 # eAsistentDiscordBot
 ***
-##Bot commands
+## Bot commands
 <table>
 <tbody>
   <tr>
