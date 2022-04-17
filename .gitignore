@@ -1,0 +1,8 @@
+.idea/
+__pycache__/
+
+# credentials
+credentials.json
+settings.json
+src/settings.json
+src/credentials.json
