@@ -60,14 +60,12 @@ else:
 @bot.event
 async def on_ready():
     print(f"Bot stated. Logged in as {bot.user}.")
-    channel = await client.Client.fetch_channel(bot, 882993496141729795)
-    await channel.send("Bot started")
     daily_schedule.start()
 
 
 @bot.command()
 async def ping(ctx):
-    await ctx.send("pong")
+    await ctx.channel.send(f"{bot.latency}s")
 
 
 @bot.command(name="urnik", aliases=["u"])
