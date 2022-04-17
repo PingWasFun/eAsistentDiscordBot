@@ -6,6 +6,7 @@ import discord
 from discord import client, Embed
 from discord.ext import commands, tasks
 from src.formatter import format_day_embed
+from setup import SCHEDULE_CHANNEL_ID
 
 from src.eAsistentAPI import (
     get_day_data,
@@ -16,7 +17,7 @@ from src.eAsistentAPI import (
 from src.util import get_today
 from ui import Schedule
 
-development = True
+development = False
 
 intents = discord.Intents(
     messages=True,
@@ -49,7 +50,8 @@ elif development is True:
 else:
     bot = commands.Bot(
         command_prefix=">",
-        activity=discord.Activity(type=discord.ActivityType.listening, name="online"),
+        activity=discord.Activity(type=discord.ActivityType.listening,
+                                  name=">help"),
         status=discord.Status.online,
         intents=intents,
     )
@@ -112,11 +114,11 @@ async def close(ctx):
 
 
 loop_time = datetime.time(
-    hour=14, minute=27, second=0, tzinfo=ZoneInfo("Europe/Ljubljana")
+    hour=18, minute=0, second=0, tzinfo=ZoneInfo("Europe/Ljubljana")
 )
 
 
 @tasks.loop(time=loop_time)
 async def daily_schedule():
-    send_schedule_channel = await client.Client.fetch_channel(bot, 965156181372977162)
+    send_schedule_channel = await client.Client.fetch_channel(bot, SCHEDULE_CHANNEL_ID)
     await schedule(send_schedule_channel, args="next_day_freeze")

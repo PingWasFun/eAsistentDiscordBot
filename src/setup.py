@@ -18,11 +18,13 @@ if not os.path.exists("settings.json"):
         settings_data = {
             "SCHOOL_ID": "INSERT SCHOOL ID",
             "CLASS_ID": "INSERT CLASS ID",
+            "SCHEDULE_CHANNEL_ID": "INSERT SCHEDULE_CHANNEL_ID"
         }
         settings_file.write(json.dumps(settings_data, indent=4))
-        exit("Generating settings.json. Please insert bot token.")
+        exit("Generating settings.json. Please insert the required data.")
 
 with open("settings.json", "r") as settings_file:
     settings_data = json.load(settings_file)
     SCHOOL_ID = settings_data["SCHOOL_ID"]
     CLASS_ID = settings_data["CLASS_ID"]
+    SCHEDULE_CHANNEL_ID = settings_data["SCHEDULE_CHANNEL_ID"]
