@@ -15,10 +15,11 @@ from eAsistentAPI import (
 # It's a view that displays a schedule
 class Schedule(discord.ui.View):
     def __init__(self, freeze=False):
-        super().__init__(timeout=60.0)
+        super().__init__(timeout=10.0)
         self.date: datetime.date = get_today()
         self.day_int = None
         self.week_relative: int = 0
+        self.embed: discord.Embed = None
 
         if freeze:
             self.clear_items()
@@ -26,7 +27,10 @@ class Schedule(discord.ui.View):
 
     async def on_timeout(self):
         # It's setting the color of the embed to a dark grey on timeout
-        embed = self.message.embeds[0]
+        if self.embed is None:
+            embed = self.message.embeds[0]
+        else:
+            embed = self.embed
         embed.color = 0x383838
         self.clear_items()
         await self.message.edit(view=self, embed=embed)
@@ -61,8 +65,11 @@ class Schedule(discord.ui.View):
             button.disabled = False
             self.last_day.disabled = False
 
+        embed = format_day_embed(day_data.raw_data)
+        self.embed = embed
+
         await interaction.response.edit_message(
-            view=self, embed=format_day_embed(day_data.raw_data)
+            view=self, embed=embed
         )
 
     @discord.ui.button(
@@ -111,8 +118,11 @@ class Schedule(discord.ui.View):
             button.disabled = False
             self.last_day.disabled = False
 
+        embed = format_day_embed(day_data.raw_data)
+        self.embed = embed
+
         await interaction.response.edit_message(
-            view=self, embed=format_day_embed(day_data.raw_data)
+            view=self, embed=embed
         )
 
     @discord.ui.button(
@@ -137,8 +147,11 @@ class Schedule(discord.ui.View):
         self.next_day.disabled = False
         self.next_week.disabled = False
 
+        embed = format_day_embed(day_data.raw_data)
+        self.embed = embed
+
         await interaction.response.edit_message(
-            view=self, embed=format_day_embed(day_data.raw_data)
+            view=self, embed=embed
         )
 
     @discord.ui.button(
@@ -183,8 +196,11 @@ class Schedule(discord.ui.View):
             button.disabled = False
             self.next_week.disabled = False
 
+        embed = format_day_embed(day_data.raw_data)
+        self.embed = embed
+
         await interaction.response.edit_message(
-            view=self, embed=format_day_embed(day_data.raw_data)
+            view=self, embed=embed
         )
 
     @discord.ui.button(
@@ -218,6 +234,9 @@ class Schedule(discord.ui.View):
             button.disabled = False
             self.next_day.disabled = False
 
+        embed = format_day_embed(day_data.raw_data)
+        self.embed = embed
+
         await interaction.response.edit_message(
-            view=self, embed=format_day_embed(day_data.raw_data)
+            view=self, embed=embed
         )
