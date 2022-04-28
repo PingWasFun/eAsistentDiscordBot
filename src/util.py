@@ -1,4 +1,5 @@
 import datetime
+import os
 
 
 def get_today():
@@ -21,3 +22,14 @@ def get_weekday_name(date: datetime.date):
     daynames = ["Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota", "Nedelja"]
     dayname = daynames[date_int]
     return dayname
+
+
+def get_data_dir_path(filename):
+    a = f"{os.getcwd()}/data/{filename}"
+    return a
+
+
+def edit_text(text, none_set="None", prefix="", suffix=""):
+    if text is None:
+        return none_set
+    return f"{prefix}{text}{suffix}"

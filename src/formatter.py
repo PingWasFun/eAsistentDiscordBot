@@ -1,10 +1,13 @@
 import datetime
-
-import discord
 import logging
 
+import discord
+
+from src.database.db_api import get_user_data, get_guild_data
 from eAsistentAPI import data_to_date, hour_data_to_tuple
-from util import get_weekday_name
+from util import get_weekday_name, edit_text
+
+""" SCHEDULE EMBED """
 
 
 def get_embed_color(date: datetime.date):
@@ -100,7 +103,7 @@ def description_part_formatter(format_data, prefix="", suffix=""):
 
 
 def format_for_description(
-    subject: str, teacher: str, classroom: str, event: str, group: list
+        subject: str, teacher: str, classroom: str, event: str, group: list
 ):
     """
     It formats the description part of the embed
@@ -191,7 +194,8 @@ def format_day_embed(day_data: dict):
 
     date = data_to_date(block_data.date)
 
-    embed = discord.Embed(color=get_embed_color(date), description=embed_description)
+    embed = discord.Embed(color=get_embed_color(date),
+                          description=embed_description)
 
     dayname = get_weekday_name(date)
     date_formated = date.strftime("%d. %m. %Y")
@@ -199,4 +203,110 @@ def format_day_embed(day_data: dict):
     embed.set_author(name=dayname_format)
 
     embed.set_footer(text=f"{dayname_format}")
+    return embed
+
+
+""" CONFIG EMBED """
+
+
+def format_config_user_embed(user_id: int):
+    user_data = get_user_data(user_id)
+    logging.info(user_data)
+    if user_data is None:
+        description = "No data for this user."
+    else:
+        uid = edit_text(user_data.id, none_set="Ta vrednost ni nastavljena")
+        school_id = edit_text(
+            user_data.school_id, none_set="Ta vrednost ni nastavljena"
+        )
+        class_id = edit_text(user_data.class_id,
+                             none_set="Ta vrednost ni nastavljena")
+        alerts_enabled = edit_text(
+            user_data.alerts_enabled, none_set="Ta vrednost ni nastavljena"
+        )
+        alert_time = edit_text(
+            user_data.alert_time, none_set="Ta vrednost ni nastavljena",
+            suffix=":00"
+        )
+
+        description = (
+            f"**id:** `{uid}`\n"
+            f"**school_id:** `{school_id}`\n"
+            f"**class_id:** `{class_id}`\n"
+            # f"**alerts_enabled:** `{alerts_enabled}`\n"
+            # f"**alert_time:** `{alert_time}<`"
+        )
+
+    embed = discord.Embed(color=0x9141AC, description=description)
+
+    return embed
+
+
+def format_config_guild_embed(guild_id: int):
+    guild_data = get_guild_data(guild_id)
+    if guild_data is None:
+        description = "No data for this guild."
+    else:
+        gid = edit_text(guild_data.id, none_set="Ta vrednost ni nastavljena")
+        school_id = edit_text(
+            guild_data.school_id, none_set="Ta vrednost ni nastavljena"
+        )
+        class_id = edit_text(guild_data.class_id,
+                             none_set="Ta vrednost ni nastavljena")
+        schedule_channel_id = edit_text(guild_data.schedule_channel_id,
+                                        none_set="Ta vrednost ni nastavljena")
+        alerts_enabled = edit_text(
+            guild_data.alerts_enabled, none_set="Ta vrednost ni nastavljena"
+        )
+        alert_time = edit_text(
+            guild_data.alert_time, none_set="Ta vrednost ni nastavljena",
+            suffix=":00"
+        )
+        alert_role_id = edit_text(
+            guild_data.alert_role_id, none_set="Ta vrednost ni nastavljena",
+            suffix=""
+        )
+
+        description = (
+            f"**id:** `{gid}`\n"
+            f"**school_id:** `{school_id}`\n"
+            f"**class_id:** `{class_id}`\n"
+            # f"**schedule_channel_id:** `{schedule_channel_id}`\n"
+            # f"**alerts_enabled:** `{alerts_enabled}`\n"
+            # f"**alert_time:** `{alert_time}`\n"
+            # f"**alert_role_id:** `{alert_role_id}`"
+        )
+
+    embed = discord.Embed(color=0x9141AC, description=description)
+
+    return embed
+
+
+""" ERROR EMBED """
+
+
+def no_permission_embed(required_permission):
+    description = (
+        f"**Nimaš dostopa do te vsebine.**\n"
+        f"\n"
+        f"Za dostop potrebuješ dovoljenje: `{required_permission}`\n\n"
+        f"Če misliš, da je to napaka jo prijavi na:\n"
+        f"https://github.com/PingWasFun/eAsistentDiscordBot/issues"
+    )
+
+    embed = discord.Embed(color=0xB20600, description=description)
+    embed.set_author(name="DOSTOP ZAVRNJEN")
+
+    return embed
+
+
+def error_in_config_emebd(error_value):
+    description = (
+        f"**Preverite ali so vaše nastaviteve pravilne,**\n"
+        f"\n"
+        f"Do napake je prišlo pri: `{error_value}`\n\n"
+        )
+
+    embed = discord.Embed(color=0xB22727, description=description)
+    embed.set_author(name="NAPAKA")
     return embed

@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 eAsistent-scraper = "1.3.0"
-"discord.py" = {editable = true, git = "https://github.com/Rapptz/discord.py"}
+"discord.py" = {git = "https://github.com/Rapptz/discord.py"}
 
 [dev-packages]
 

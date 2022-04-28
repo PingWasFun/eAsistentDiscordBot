@@ -3,7 +3,5 @@ __pycache__/
 start.sh
 
 # credentials
-credentials.json
-settings.json
-src/settings.json
-src/credentials.json
+data/credentials.json
+data/settings.json
