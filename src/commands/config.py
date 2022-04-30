@@ -32,7 +32,7 @@ class ConfigurationCog(commands.Cog):
     #
     #     view.message = await ctx.send(embed=embed, view=view)
 
-    @app_commands.command(name="reset", description="Ponastavi svoje podatke")
+    @app_commands.command(name="ponastavi", description="Ponastavi svoje podatke")
     async def reset_user_data(self, interaction: discord.Interaction) -> None:
         view = Confirm()
 

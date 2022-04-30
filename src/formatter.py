@@ -211,7 +211,6 @@ def format_day_embed(day_data: dict):
 
 def format_config_user_embed(user_id: int):
     user_data = get_user_data(user_id)
-    logging.info(user_data)
     if user_data is None:
         description = "No data for this user."
     else:
@@ -237,7 +236,7 @@ def format_config_user_embed(user_id: int):
             # f"**alert_time:** `{alert_time}<`"
         )
 
-    embed = discord.Embed(color=0x9141AC, description=description)
+    embed = discord.Embed(color=0x43919B, description=description)
 
     return embed
 
@@ -277,7 +276,7 @@ def format_config_guild_embed(guild_id: int):
             # f"**alert_role_id:** `{alert_role_id}`"
         )
 
-    embed = discord.Embed(color=0x9141AC, description=description)
+    embed = discord.Embed(color=0x247881, description=description)
 
     return embed
 

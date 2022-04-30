@@ -28,7 +28,7 @@ class ScheduleCog(commands.Cog):
         self.daily_schedule.start()
 
     @commands.command(name="commands.schedule.ping")
-    @commands.has_permissions(administrator=True)
+    @commands.is_owner()
     async def ping(self, ctx):
         await ctx.send(f"Pong")
 
@@ -36,15 +36,26 @@ class ScheduleCog(commands.Cog):
         name="urnik", description="Prikeže urnik"
     )
     async def schedule(self, interaction: discord.Interaction,
-                       podatki_iz: typing.Literal["server", "user"]
+                       za: typing.Literal["server", "uporabnik"] = None
                        ):
         today_int = get_today().weekday()
         day_int = today_int
+        get_data_from = za
         try:
-            day_data = get_day_data(
-                day_int, user_id=interaction.user.id,
-                guild_id=interaction.guild.id
-            ).raw_data
+            if get_data_from == "uporabnik":
+                day_data = get_day_data(
+                    day_int, user_id=interaction.user.id
+                ).raw_data
+            elif get_data_from == "server":
+                day_data = get_day_data(
+                    day_int, guild_id=interaction.guild.id
+                ).raw_data
+            else:
+                day_data = get_day_data(
+                    day_int, user_id=interaction.user.id,
+                    guild_id=interaction.guild.id
+                ).raw_data
+
         except ValueError:
             # logging.error(error)
             await interaction.response.send_message(
@@ -79,6 +90,7 @@ class ScheduleCog(commands.Cog):
             await interaction.response.send_message(
                 ephemeral=True,
                 embed=format_day_embed(day_data.raw_data))
+
         else:
             view = ScheduleView()
             await interaction.response.send_message(

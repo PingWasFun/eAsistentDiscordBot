@@ -2,6 +2,6 @@
 __pycache__/
 start.sh
 
-# credentials
-data/credentials.json
-data/settings.json
+# other
+data/
+gitignored/
