@@ -1,3 +1,9 @@
+# THIS REPOSITORY IS NOW ARCHIVED
+
+
+
+
+
 # eAsistentDiscordBot
 ***
 ## Bot commands
